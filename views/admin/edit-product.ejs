@@ -1,0 +1,49 @@
+<%- include('../partials/header') %>
+<%- include('../partials/admin-sidebar') %>
+
+<div class="main-content">
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">Edit Product</h1>
+    <a href="/admin/products" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to Products
+    </a>
+  </div>
+  
+  <div class="card">
+    <div class="card-header">Edit Product</div>
+    <div class="card-body">
+      <form action="/admin/products/edit/<%= product._id %>" method="POST">
+        <div class="form-group">
+          <label for="name" class="form-label">Product Name</label>
+          <input style="color: var(--text-color);" type="text" id="name" name="name" class="form-control" value="<%= product.name %>" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="description" class="form-label">Description</label>
+          <textarea  style="color: var(--text-color);" id="description" name="description" class="form-control" rows="3" required><%= product.description %></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="price" class="form-label">Price</label>
+          <input style="color: var(--text-color);" type="number" id="price" name="price" class="form-control" step="0.01" value="<%= product.price %>" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="features" class="form-label">Features (comma-separated)</label>
+          <input style="color: var(--text-color);" type="text" id="features" name="features" class="form-control" value="<%= product.features.join(', ') %>">
+        </div>
+        
+        <div class="form-group">
+          <div class="form-check">
+            <input type="checkbox" id="active" name="active" class="form-check-input" <%= product.active ? 'checked' : '' %>>
+            <label style="color: var(--text-color);" for="active" class="form-check-label">Active</label>
+          </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Update Product</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+

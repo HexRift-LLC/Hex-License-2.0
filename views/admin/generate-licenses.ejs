@@ -1,0 +1,65 @@
+<%- include('../partials/header', { title: 'Generate Licenses' }) %>
+<%- include('../partials/navbar') %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <%- include('../partials/admin-sidebar') %>
+    </div>
+    
+    <div class="col-md-9 main-content cyber-grid-bg">
+      <div class="dashboard-header">
+        <h1 class="dashboard-title text-gradient">Generate License Keys</h1>
+      </div>
+      
+      <div class="holographic-card">
+        <div class="card-header">
+          <i class="fas fa-key me-2"></i> License Key Generator
+        </div>
+        <div class="card-body">
+          <form action="/admin/licenses/generate" method="POST">
+            <div class="form-group">
+              <label for="product" class="form-label">Product</label>
+              <select class="form-control" id="product" name="productId" required>
+                <option value="">Select a product</option>
+                <% if (products && products.length > 0) { %>
+                  <% products.forEach(product => { %>
+                    <option value="<%= product._id %>"><%= product.name %></option>
+                  <% }) %>
+                <% } %>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="quantity" class="form-label">Quantity</label>
+              <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="100">
+              <div class="mt-2" style="color: var(--gray-400); font-size: 0.9rem;">
+                Number of license keys to generate (max 100)
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="expiresAt" class="form-label">Expiration Date</label>
+              <input type="date" class="form-control" id="expiresAt" name="expiresAt">
+              <div class="mt-2" style="color: var(--gray-400); font-size: 0.9rem;">
+                Leave blank for non-expiring licenses
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="maxUsage" class="form-label">Max Usage</label>
+              <input type="number" class="form-control" id="maxUsage" name="maxUsage" value="1" min="1">
+              <div class="mt-2" style="color: var(--gray-400); font-size: 0.9rem;">
+                Maximum number of times this license can be used
+              </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary float-effect">
+              <i class="fas fa-cogs me-2"></i> Generate License Keys
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

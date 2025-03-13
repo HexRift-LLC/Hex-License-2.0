@@ -1,0 +1,78 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container mt-4">
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">Dashboard</h1>
+  </div>
+  
+  <div class="card mb-4">
+    <div class="card-header">
+      <div class="flex justify-between items-center">
+        <span>Your Licenses</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <% if (licenses && licenses.length > 0) { %>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>License Key</th>
+                <th>Status</th>
+                <th>Expiration</th>
+                <th>Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% licenses.forEach(license => { %>
+                <tr>
+                  <td><%= license.product.name %></td>
+                  <td><code class="license-key"><%= license.key %></code></td>
+                  <td>
+                    <% if (license.active) { %>
+                      <span class="badge badge-success">Active</span>
+                    <% } else { %>
+                      <span class="badge badge-danger">Revoked</span>
+                    <% } %>
+                  </td>
+                  <td>
+                    <% if (license.expiresAt) { %>
+                      <%= new Date(license.expiresAt).toLocaleDateString() %>
+                    <% } else { %>
+                      Never
+                    <% } %>
+                  </td>
+                  <td><%= license.usageCount %>/<%= license.maxUsage %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <div class="alert alert-danger">
+          You don't have any licenses yet.
+        </div>
+      <% } %>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div class="card-header">API Integration</div>
+    <div class="card-body">
+      <p>To validate a license in your application, make a POST request to the following endpoint:</p>
+      <pre><code>POST <%= config.server.url %>/api/validate</code></pre>
+      
+      <div class="mt-4">
+        <p>Request body:</p>
+        <pre><code>{
+  "licenseKey": "your-license-key",
+  "productId": "optional-product-id"
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,67 @@
+<%- include('../partials/header') %>
+<%- include('../partials/admin-sidebar') %>
+
+<div class="main-content">
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">Admin Dashboard</h1>
+  </div>
+  
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-title">Total Users</div>
+      <div class="stat-value"><%= stats.totalUsers %></div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-title">Total Licenses</div>
+      <div class="stat-value"><%= stats.totalLicenses %></div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-title">Total Products</div>
+      <div class="stat-value"><%= stats.totalProducts %></div>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div class="card-header">Recent Licenses</div>
+    <div class="card-body">
+      <% if (recentLicenses && recentLicenses.length > 0) { %>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>License Key</th>
+                <th>User</th>
+                <th>Created</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% recentLicenses.forEach(license => { %>
+                <tr>
+                  <td><%= license.product.name %></td>
+                  <td><code class="license-key"><%= license.key %></code></td>
+                  <td><%= license.user ? license.user.username : 'Unassigned' %></td>
+                  <td><%= new Date(license.createdAt).toLocaleDateString() %></td>
+                  <td>
+                    <% if (license.active) { %>
+                      <span class="badge badge-success">Active</span>
+                    <% } else { %>
+                      <span class="badge badge-danger">Revoked</span>
+                    <% } %>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <div class="alert alert-danger">No licenses found.</div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+

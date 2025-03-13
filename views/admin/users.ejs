@@ -1,0 +1,85 @@
+<%- include('../partials/header', { title: 'Manage Users' }) %>
+<%- include('../partials/navbar') %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <%- include('../partials/admin-sidebar') %>
+    </div>
+    
+    <div class="col-md-9 main-content cyber-grid-bg">
+      <div class="dashboard-header">
+        <h1 class="dashboard-title text-gradient">Manage Users</h1>
+      </div>
+      
+      <div class="holographic-card">
+        <div class="card-header">
+          <i class="fas fa-users me-2"></i> User Management
+        </div>
+        <div class="card-body">
+          <% if (users && users.length > 0) { %>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Joined</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% users.forEach(user => { %>
+                    <tr>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <% if (user.avatar) { %>
+                            <img src="https://cdn.discordapp.com/avatars/<%= user.discordId %>/<%= user.avatar %>.png" 
+                                alt="Avatar" width="36" height="36" 
+                                style="border-radius: 50%; margin-right: 10px; border: 2px solid var(--primary-color); box-shadow: 0 0 8px var(--primary-glow);">
+                          <% } else { %>
+                            <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--gray-700); display: flex; align-items: center; justify-content: center; margin-right: 10px;">
+                              <i class="fas fa-user" style="color: var(--gray-400);"></i>
+                            </div>
+                          <% } %>
+                          <span style="color: var(--text-color);"><%= user.username %></span>
+                        </div>
+                      </td>
+                      <td style="color: var(--text-color);"><%= user.email || 'Not provided' %></td>
+                      <td>
+                        <% if (user.isAdmin) { %>
+                          <span class="badge badge-primary float-effect">Admin</span>
+                        <% } else { %>
+                          <span class="badge badge-secondary">User</span>
+                        <% } %>
+                      </td>
+                      <td style="color: var(--text-color);"><%= new Date(user.createdAt).toLocaleDateString() %></td>
+                      <td>
+                        <div class="btn-group" role="group">
+                          <button type="button" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-eye me-1"></i> View
+                          </button>
+                          <button type="button" class="btn btn-sm btn-outline-warning">
+                            <i class="fas fa-user-shield me-1"></i> Toggle Admin
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          <% } else { %>
+            <div class="text-center p-4">
+              <div class="my-4">
+                <i class="fas fa-users-slash fa-3x" style="color: var(--gray-400);"></i>
+              </div>
+              <p class="text-center neon-text">No users found.</p>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

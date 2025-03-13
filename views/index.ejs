@@ -1,0 +1,55 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container cyber-grid-bg">
+  <div class="flex flex-col items-center justify-center text-center" style="min-height: 85vh">
+  <!-- Title with gradient and glitch effects applied directly to the span -->
+  <span class="text-gradient glitch-text mb-4" data-text="<%= config.server.name %>" style="font-size: 3.5rem; font-weight: 800; letter-spacing: 2px; display: block;">
+    <%= config.server.name %>
+  </span>
+
+    <!-- Subtitle with neon glow -->
+    <div class="mb-4">
+      <p class="neon-text" style="font-size: 1.5rem; max-width: 700px; margin: 0 auto 2rem;">
+        Advanced License Management System
+      </p>
+      
+      <!-- Cyberpunk separator -->
+      <div class="mx-auto my-4" style="width: 150px; height: 3px; background: linear-gradient(90deg, transparent, var(--primary-color), transparent);"></div>
+    </div>
+    
+    <!-- Holographic card for login -->
+    <div class="holographic-card p-4 my-4" style="max-width: 450px;">
+      <p class="mb-4" style="color: var(--gray-300);">
+        Secure your software with our advanced licensing system. 
+        Manage keys, track usage, and protect your intellectual property.
+      </p>
+      
+      <!-- Enhanced login button with animation -->
+      <a href="/auth/discord" class="btn btn-primary float-effect" style="font-size: 1.25rem; padding: 0.75rem 2rem; margin-top: 1rem;">
+        <i class="fab fa-discord" style="margin-right: 10px;"></i> 
+        Login with Discord
+      </a>
+    </div>
+    
+    <!-- Animated decorative elements -->
+    <div class="mt-4" style="position: absolute; bottom: 20px; width: 100%; text-align: center; opacity: 0.5;">
+      <div class="cyber-loader mx-auto"></div>
+    </div>
+  </div>
+</div>
+<!-- Add a small script to enable the glitch effect based on mouse movement -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const glitchText = document.querySelector('.glitch-text');
+    
+    document.addEventListener('mousemove', function() {
+      glitchText.classList.add('active');
+      
+      setTimeout(function() {
+        glitchText.classList.remove('active');
+      }, 1000);
+    });
+  });
+</script>
+<%- include('partials/footer') %>

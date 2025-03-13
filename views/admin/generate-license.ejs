@@ -1,0 +1,65 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <%- include('../partials/admin-sidebar') %>
+    </div>
+    
+    <div class="col-md-9 main-content cyber-grid-bg">
+      <div class="dashboard-header">
+        <h1 class="dashboard-title text-gradient">Generate License</h1>
+        <a href="/admin/licenses" class="btn btn-secondary">
+          <i class="fas fa-arrow-left me-2"></i> Back to Licenses
+        </a>
+      </div>
+      
+      <div class="holographic-card">
+        <div class="card-header">License Generator</div>
+        <div class="card-body">
+          <form action="/admin/licenses/generate" method="POST">
+            <div class="form-group">
+              <label for="product" class="form-label">Product</label>
+              <select id="product" name="product" class="form-control" required>
+                <option value="">Select a product</option>
+                <% products.forEach(product => { %>
+                  <option value="<%= product._id %>"><%= product.name %> - $<%= product.price.toFixed(2) %></option>
+                <% }) %>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="user" class="form-label">Assign to User (Optional)</label>
+              <select id="user" name="user" class="form-control">
+                <option value="">Unassigned</option>
+                <% users.forEach(user => { %>
+                  <option value="<%= user._id %>"><%= user.username %></option>
+                <% }) %>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="count" class="form-label">Number of Licenses</label>
+              <input type="number" id="count" name="count" class="form-control" value="1" min="1" max="100">
+            </div>
+            
+            <div class="form-group">
+              <label for="expiresAt" class="form-label">Expiration Date (Optional)</label>
+              <input type="date" id="expiresAt" name="expiresAt" class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="maxUsage" class="form-label">Max Usage</label>
+              <input type="number" id="maxUsage" name="maxUsage" class="form-control" value="1" min="1">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-key me-2"></i> Generate License
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

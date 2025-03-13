@@ -1,0 +1,51 @@
+<nav class="navbar">
+  <div class="container">
+    <!-- Brand with glowing/gradient effect -->
+    <a href="/" class="navbar-brand">
+      <span class="text-gradient glow-on-hover"><%= config.server.name %></span>
+    </a>
+    
+    <!-- Mobile menu toggle button -->
+    <div class="menu-toggle d-md-none" id="navbarToggle">
+      <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    
+    <!-- Navigation menu -->
+    <div class="navbar-menu" id="navbarMenu">
+      <% if (user) { %>
+        <a href="/dashboard" class="<%= path === '/dashboard' ? 'active' : '' %>">
+          <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+        </a>
+        <% if (user.isAdmin) { %>
+          <a href="/admin" class="<%= path === '/admin' ? 'active' : '' %>">
+            <i class="fas fa-shield-alt me-2"></i>Admin
+          </a>
+        <% } %>
+        <a href="/auth/logout">
+          <i class="fas fa-sign-out-alt me-2"></i>Logout
+        </a>
+      <% } else { %>
+     
+      <% } %>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile menu script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const navbarToggle = document.getElementById('navbarToggle');
+    const navbarMenu = document.getElementById('navbarMenu');
+    
+    if (navbarToggle) {
+      navbarToggle.addEventListener('click', function() {
+        navbarToggle.classList.toggle('active');
+        navbarMenu.classList.toggle('open');
+      });
+    }
+  });
+</script>

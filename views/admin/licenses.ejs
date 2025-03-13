@@ -1,0 +1,84 @@
+<%- include('../partials/header') %>
+<%- include('../partials/admin-sidebar') %>
+
+<div class="main-content">
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">License Management</h1>
+    <a href="/admin/licenses/generate" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Generate New Licenses
+    </a>
+  </div>
+  
+  <div class="card">
+    <div class="card-header">All Licenses</div>
+    <div class="card-body">
+      <% if (licenses && licenses.length > 0) { %>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>License Key</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Usage</th>
+                <th>Expires</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% licenses.forEach(license => { %>
+                <tr>
+                  <td><%= license.product.name %></td>
+                  <td><code class="license-key"><%= license.key %></code></td>
+                  <td><%= license.user ? license.user.username : 'Unassigned' %></td>
+                  <td>
+                    <% if (license.active) { %>
+                      <span class="badge badge-success">Active</span>
+                    <% } else { %>
+                      <span class="badge badge-danger">Revoked</span>
+                    <% } %>
+                  </td>
+                  <td><%= license.usageCount %>/<%= license.maxUsage %></td>
+                  <td>
+                    <% if (license.expiresAt) { %>
+                      <%= new Date(license.expiresAt).toLocaleDateString() %>
+                    <% } else { %>
+                      Never
+                    <% } %>
+                  </td>
+                  <td>
+                    <% if (license.active) { %>
+                      <form action="/admin/licenses/revoke/<%= license._id %>" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to revoke this license?')">
+                        <button type="submit" class="btn btn-danger btn-sm">Revoke</button>
+                      </form>
+                    <% } else { %>
+                      <form action="/admin/licenses/activate/<%= license._id %>" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-success btn-sm">Activate</button>
+                      </form>
+                    <% } %>
+                    <button class="btn btn-secondary btn-sm" onclick="copyLicense('<%= license.key %>')">
+                      <i class="fas fa-copy"></i> Copy
+                    </button>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <div class="alert alert-danger">No licenses found.</div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<script>
+  function copyLicense(key) {
+    navigator.clipboard.writeText(key).then(() => {
+      alert('License key copied to clipboard!');
+    });
+  }
+</script>
+
+

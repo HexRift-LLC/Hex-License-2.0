@@ -1,0 +1,30 @@
+<div class="admin-layout">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <span class="text-gradient glitch-text mb-4" data-text="<%= config.server.name %>" style="font-size: 1.5rem; font-weight: 800; letter-spacing: 2px; display: block;">
+        <%= config.server.name %>
+      </span>
+    </div>
+    
+    <div class="sidebar-menu">
+      <a href="/admin" class="sidebar-menu-item <%= path === '/admin' ? 'active' : '' %>">
+        <i class="fas fa-chart-line"></i> Dashboard
+      </a>
+      <a href="/admin/products" class="sidebar-menu-item <%= path.startsWith('/admin/products') ? 'active' : '' %>">
+        <i class="fas fa-box"></i> Products Management
+      </a>
+      <a href="/admin/licenses/generate" class="sidebar-menu-item <%= path === '/admin/licenses/generate' ? 'active' : '' %>">
+        <i class="fas fa-key"></i> License Generator
+      </a>
+      <a href="/admin/licenses" class="sidebar-menu-item <%= path === '/admin/licenses' ? 'active' : '' %>">
+        <i class="fas fa-list"></i> License Management
+      </a>
+      <a href="/admin/users" class="sidebar-menu-item <%= path === '/admin/users' ? 'active' : '' %>">
+        <i class="fas fa-users"></i> User Management
+      </a>
+      <a href="/dashboard" class="sidebar-menu-item">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </a>
+    </div>
+  </div>
+</div>

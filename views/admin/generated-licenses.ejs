@@ -1,0 +1,127 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <%- include('../partials/admin-sidebar') %>
+    </div>
+    
+    <div class="col-md-9 main-content cyber-grid-bg">
+      <div class="dashboard-header">
+        <h1 class="dashboard-title text-gradient">Generated Licenses</h1>
+        <a href="/admin/licenses/generate" class="btn btn-secondary">
+          <i class="fas fa-arrow-left me-2"></i> Back to Generator
+        </a>
+      </div>
+      
+      <div class="holographic-card">
+        <div class="card-header">
+          <div class="flex justify-between items-center">
+            <span><i class="fas fa-key me-2"></i> Generated Licenses for <%= productInfo.name %></span>
+            <button class="btn btn-primary btn-sm" onclick="copyAllLicenses()">
+              <i class="fas fa-copy me-2"></i> Copy All
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>License Key</th>
+                  <th>Max Usage</th>
+                  <th>Expires</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% licenses.forEach(license => { %>
+                  <tr>
+                    <td><code class="license-key"><%= license.key %></code></td>
+                    <td><span class="badge badge-primary"><%= license.maxUsage %></span></td>
+                    <td>
+                      <% if (license.expiresAt) { %>
+                        <span class="badge badge-warning">
+                          <%= new Date(license.expiresAt).toLocaleDateString() %>
+                        </span>
+                      <% } else { %>
+                        <span class="badge badge-success">Never</span>
+                      <% } %>
+                    </td>
+                    <td>
+                      <button class="btn btn-secondary btn-sm" onclick="copyLicense('<%= license.key %>')">
+                        <i class="fas fa-copy me-1"></i> Copy
+                      </button>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function copyLicense(key) {
+    navigator.clipboard.writeText(key).then(() => {
+      // Create and show a floating notification with cyberpunk style
+      const notification = document.createElement('div');
+      notification.textContent = 'License key copied!';
+      notification.style.position = 'fixed';
+      notification.style.bottom = '20px';
+      notification.style.right = '20px';
+      notification.style.padding = '10px 20px';
+      notification.style.background = 'rgba(140, 0, 255, 0.2)';
+      notification.style.backdropFilter = 'blur(10px)';
+      notification.style.border = '1px solid var(--primary-color)';
+      notification.style.borderRadius = 'var(--border-radius)';
+      notification.style.color = 'var(--primary-color)';
+      notification.style.boxShadow = '0 0 15px var(--primary-glow)';
+      notification.style.zIndex = '9999';
+      notification.style.transition = 'all 0.3s ease';
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 300);
+      }, 2000);
+    });
+  }
+  
+  function copyAllLicenses() {
+    const keys = [<% licenses.forEach(license => { %>'<%= license.key %>',<% }) %>].join('\n');
+    navigator.clipboard.writeText(keys).then(() => {
+      // Create and show a floating notification with cyberpunk style
+      const notification = document.createElement('div');
+      notification.textContent = 'All license keys copied!';
+      notification.style.position = 'fixed';
+      notification.style.bottom = '20px';
+      notification.style.right = '20px';
+      notification.style.padding = '10px 20px';
+      notification.style.background = 'rgba(140, 0, 255, 0.2)';
+      notification.style.backdropFilter = 'blur(10px)';
+      notification.style.border = '1px solid var(--primary-color)';
+      notification.style.borderRadius = 'var(--border-radius)';
+      notification.style.color = 'var(--primary-color)';
+      notification.style.boxShadow = '0 0 15px var(--primary-glow)';
+      notification.style.zIndex = '9999';
+      notification.style.transition = 'all 0.3s ease';
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 300);
+      }, 2000);
+    });
+  }
+</script>
